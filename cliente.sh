@@ -28,6 +28,8 @@ IP_LOCAL_HASH=`echo "$IP_LOCAL" | md5sum - | cut -d " " -f 1`
 sleep 1
 echo "RECTP $VERSION_CURRENT $IP_LOCAL $IP_LOCAL_HASH" | nc $IP_SERVER -q 0 $PORT
 
+
+
 RESPONSE=`nc -l -p $PORT`
 
 echo "5. TEST. Header Response"
@@ -41,8 +43,15 @@ fi
 
 echo "6. SEND. Nombre de archivo"
 
+
+AUDIO_FILE_NAME_HASH=`echo "$AUDIO_FILE" | md5sum | cut -d " " -f 1`
+
+
 sleep 1
-echo "FILE_NAME $AUDIO_FILE" | nc $IP_SERVER -q 0 $PORT
+echo "FILE_NAME $AUDIO_FILE $AUDIO_FILE_NAME_HASH" | nc $IP_SERVER -q 0 $PORT
+
+ echo "FILE_NAME $AUDIO_FILE $AUDIO_FILE_NAME_HASH"
+
 
 echo "7. LISTEN. FILE_NAME_OK"
 

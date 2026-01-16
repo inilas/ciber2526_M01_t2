@@ -87,6 +87,9 @@ echo "8. FILE NAME"
 
 echo "8.1 TEST"
 
+echo "$DATA"
+
+
 FILE_NAME_PREFIX=`echo $DATA | cut -d " " -f 1`
 
 if [ "$FILE_NAME_PREFIX" != "FILE_NAME" ]
@@ -100,6 +103,22 @@ then
 fi
 
 FILE_NAME=`echo $DATA | cut -d " " -f 2`
+
+
+FILE_NAME_HASH=`echo $DATA | cut -d " " -f 3`
+
+
+FILE_NAME_HASH_COMPROBATION=`echo "$FILE_NAME" | md5sum | cut -d " " -f 1`
+
+
+echo "$FILE_NAME_HASH"
+
+if [ "$FILE_NAME_HASH" != "$FILE_NAME_HASH_COMPROBATION" ]
+then
+	echo "Error 3h: El hash del nombre no es correcto"
+	exit 3
+fi
+
 
 echo "File Name: $FILE_NAME"
 
