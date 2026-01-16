@@ -2,7 +2,7 @@
 
 AUDIO_FILE="audio.wav"
 
-VERSION_CURRENT="0.6"
+VERSION_CURRENT="0.7"
 
 PORT="9999"
 IP_SERVER="localhost"
@@ -20,8 +20,13 @@ IP_LOCAL=`ip -4 addr | grep "scope global" | awk '{print $2}' | cut -d "/" -f 1`
 # IP_LOCAL=`ip -4 addr | grep "scope global" | tr -s " " | cut -d " " -f 3 | cut -d "/" -f 1`
 # IP_LOCAL=`ip -4 addr | grep 'inet ' | grep -v '127.' | awk '{print $2}' | cut -d "/" -f ip -4 addr | grep 'inet ' | grep -v '127.' | awk '{print $2}' | cut -d "/" -f 11`
 
+IP_LOCAL_HASH=`echo "$IP_LOCAL" | md5sum - | cut -d " " -f 1`
+
+
+
+
 sleep 1
-echo "RECTP $VERSION_CURRENT $IP_LOCAL" | nc $IP_SERVER -q 0 $PORT
+echo "RECTP $VERSION_CURRENT $IP_LOCAL $IP_LOCAL_HASH" | nc $IP_SERVER -q 0 $PORT
 
 RESPONSE=`nc -l -p $PORT`
 

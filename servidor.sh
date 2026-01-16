@@ -1,6 +1,6 @@
 #/bin/bash
 
-VERSION_CURRENT="0.6"
+VERSION_CURRENT="0.7"
 
 PORT="9999"
 IP_CLIENT="localhost"
@@ -56,7 +56,22 @@ then
 fi
 
 
+IP_CLIENT_HASH=`echo $DATA | cut -d " " -f 4`
 
+
+IP_CLIENT_HASH_TEST=`echo "$IP_CLIENT" | md5sum | cut -d " " -f 1`
+
+
+
+
+if [ "$IP_CLIENT_HASH_TEST" != "$IP_CLIENT_HASH" ]
+then
+	echo "Error 4h: IP de cliente malformada (Hash erroneo)"
+	exit 4
+fi
+
+
+echo "8.1 TEST"
 
 
 echo "3.2. RESPONSE. Enviando HEADER_OK"
