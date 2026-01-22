@@ -87,7 +87,7 @@ echo "8. FILE NAME"
 
 echo "8.1 TEST"
 
-echo "$DATA"
+echo -e "\nName file:$DATA"
 
 
 FILE_NAME_PREFIX=`echo $DATA | cut -d " " -f 1`
@@ -111,7 +111,7 @@ FILE_NAME_HASH=`echo $DATA | cut -d " " -f 3`
 FILE_NAME_HASH_COMPROBATION=`echo "$FILE_NAME" | md5sum | cut -d " " -f 1`
 
 
-echo "$FILE_NAME_HASH"
+echo -e "\nFile name hash: $FILE_NAME_HASH"
 
 if [ "$FILE_NAME_HASH" != "$FILE_NAME_HASH_COMPROBATION" ]
 then
@@ -120,7 +120,7 @@ then
 fi
 
 
-echo "File Name: $FILE_NAME"
+echo -e "File Name: $FILE_NAME\n"
 
 echo "8.2 RESPONSE FILE_NAME_OK"
 
@@ -128,9 +128,29 @@ sleep 1
 echo "FILE_NAME_OK" | nc $IP_CLIENT -q 0 $PORT
 
 echo "9. LISTEN FILE DATA"
-echo "13. STORE FILE DATA"
 
-nc -l -p $PORT > $SERVER_DIR/$FILE_NAME
+echo "9.2 STORE FILE DATA"
+
+nc -l -p $PORT>$SERVER_DIR/$FILE_NAME
+
+sleep 1
+
+DATA_HASH_RECIVED=`nc -l -p $PORT`
+
+DATA_HASH=`cat "$SERVER_DIR/$FILE_NAME" | md5sum | cut -d " " -f 1`
+echo "$DATA_HASH"
+
+echo "$DATA_HASH_RECIVED"
+
+if [ "$DATA_HASH_RECIVED" != "$DATA_HASH" ]
+then
+	echo "FILE_DATA_KO" | nc $IP_CLIENT -q 0 $PORT
+	exit 3
+fi
+
+
+
+
 
 echo "14. SEND. FILE_DATA_OK"
 

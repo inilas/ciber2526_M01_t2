@@ -68,7 +68,13 @@ fi
 echo "11. SEND. FILE DATA"
 
 sleep 1
-cat audio.wav | nc $IP_SERVER -q 0 $PORT
+cat $AUDIO_FILE | nc $IP_SERVER -q 0 $PORT
+
+DATA_HASH=`md5sum $AUDIO_FILE | cut -d " " -f 1`
+
+sleep 2
+
+echo "$DATA_HASH" | nc $IP_SERVER -q 0 $PORT
 
 echo "12. LISTEN"
 
