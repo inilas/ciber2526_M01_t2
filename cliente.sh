@@ -1,5 +1,5 @@
 #!/bin/bash
-
+#cliente
 AUDIO_FILE="audio.wav"
 
 VERSION_CURRENT="0.7"

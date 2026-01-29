@@ -1,5 +1,5 @@
 #/bin/bash
-
+#servidor
 VERSION_CURRENT="0.7"
 
 PORT="9999"
